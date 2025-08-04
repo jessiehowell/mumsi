@@ -12,6 +12,11 @@ port = 5060
 user = mumsi
 password = foobar
 
+# Number to dial out (leave commented or blank if you don't want this behavior)
+# The default behavior of mumsi is to wait for another SIP client to call
+# In some cases, you may want mumsi to initiate the call
+dial = 
+
 # length of single voice frame in ms. Valid values are 10, 20, 40, 60 ms.
 # Adjust it if you need to meet the specific bandwidth requirements of Murmur server
 frameLength = 40

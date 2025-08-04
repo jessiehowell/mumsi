@@ -1,0 +1,14 @@
+[Unit]
+Description=Initiates Mumble to SIP call
+after=network.target
+
+[Service]
+Type=simple
+User=mumsi
+WorkingDirectory=/home/mumsi
+ExecStart=/home/mumsi/bin/mumsi /home/mumsi/conf/config.ini
+StandardOutput=file:/home/mumsi/log/mumsi.log
+StandardError=file:/home/mumsi/log/mumsi.log
+
+[Install]
+WantedBy=multi-user.target

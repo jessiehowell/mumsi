@@ -94,6 +94,7 @@ namespace sip {
                 std::string host,
                 std::string user,
                 std::string password,
+                std::string dial,
                 unsigned int port = DEFAULT_PORT);
 
         virtual ~PjsuaCommunicator();

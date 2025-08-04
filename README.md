@@ -129,6 +129,12 @@ matches channelNameExpression.
 
 This helps keep the unused SIP connections from cluttering your channel.
 
+### Dial out
+
+If a dial number is set in *config.ini* under the *sip* section, mumsi will attempt to dial
+outbound the specified number instead of it's default behavior, which is to wait for an incoming 
+call.
+
 ### Autodeaf
 
 By default (i.e. autodeaf=0), other Mumble users can only see whether the mumsi
@@ -159,7 +165,15 @@ files are not found, no sound is played. The following events are supported:
 
 ## Start at boot
 
-*mumsi* provides no *init.d* scripts, but you can use great daemon mangaer, [Supervisor](http://supervisord.org/).
+systemd folder contains scripts for running at startup
+simply copy to the systemd folder and enable
+```
+cp systemd/mumsi.service /etc/systemd/system/
+systemctl daemon-reload
+systemctl enable mumsi.service
+````
+
+Supervisor can be used alternatively, [Supervisor](http://supervisord.org/).
 The sample configuration file:
 
 ```ini
@@ -201,7 +215,6 @@ better, but this code is still very buggy and therefore disabled.
 ## TODO:
 
 * multiple simultaneous connections
-* outgoing connections
 * text chat commands
 
 ## Credits

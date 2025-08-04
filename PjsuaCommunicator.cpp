@@ -521,6 +521,7 @@ void sip::PjsuaCommunicator::connect(
         std::string host,
         std::string user,
         std::string password,
+        std::string dial,
         unsigned int port) {
 
     pj::TransportConfig transportConfig;
@@ -537,6 +538,24 @@ void sip::PjsuaCommunicator::connect(
     }
 
     registerAccount(host, user, password);
+
+    if (dial != "") {
+        std::string dialUri = "sip:" + dial + "@" + host;
+        logger.info("Dialing: %s", dialUri.c_str());
+
+        auto *call = new sip::_Call(*this, *account);
+        pj::CallOpParam param(true);
+        param.opt.audioCount = 1;
+        param.opt.videoCount = 0;
+
+        if (uriValidator.validateUri(dialUri)) {
+            call->makeCall(dialUri.c_str(), param);
+        } else {
+            logger.warn("Can't Dial: %s - invalid uri.", dialUri.c_str());
+            param.statusCode = PJSIP_SC_SERVICE_UNAVAILABLE;
+            call->hangup(param);
+        }
+    }
 }
 
 sip::PjsuaCommunicator::~PjsuaCommunicator() {

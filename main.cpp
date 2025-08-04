@@ -69,6 +69,7 @@ void SetupSignalHandlers()
 int main(int argc, char *argv[]) {
     SetupSignalHandlers();
     int max_calls;
+    std::string dial;
 
     log4cpp::OstreamAppender appender("console", &std::cout);
     log4cpp::PatternLayout layout;
@@ -97,6 +98,12 @@ int main(int argc, char *argv[]) {
         max_calls = conf.getInt("sip.max_calls");
     } catch (...) {
         max_calls = 1;
+    }
+
+    try {
+        dial = conf.getString("sip.dial");
+    } catch (...) {
+        dial = "";
     }
 
     sip::PjsuaCommunicator pjsuaCommunicator(connectionValidator, conf.getInt("sip.frameLength"), max_calls);
@@ -295,6 +302,7 @@ int main(int argc, char *argv[]) {
             conf.getString("sip.host"),
             conf.getString("sip.user"),
             conf.getString("sip.password"),
+            dial,
             conf.getInt("sip.port"));
 
     logger.info("Application started.");
