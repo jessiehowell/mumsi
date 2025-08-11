@@ -161,7 +161,7 @@ namespace sip {
             auto msgText = callDirection + "connectin...";
             communicator.logger.notice(msgText);
         } else if (ci.state == PJSIP_INV_STATE_CONFIRMED) {
-            auto msgText = CallDirection + address + ".";
+            auto msgText = callDirection + address + ".";
 
             // first, login to Mumble (only matters if MUM_DELAYED_CONNECT)
             communicator.calls[ci.id].onConnect(address);
