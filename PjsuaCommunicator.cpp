@@ -118,6 +118,7 @@ namespace sip {
     private:
         sip::PjsuaCommunicator &communicator;
         pj::Account &account;
+        std::string callDirection;
     };
 
     class _Account : public pj::Account {
