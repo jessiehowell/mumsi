@@ -63,7 +63,10 @@ namespace sip {
 
     class _Account;
 
-    class _Call;
+    class _Call {
+    private:
+      std::string callDirection;
+    };
 
     class _MumlibAudioMedia;
 

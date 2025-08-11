@@ -149,8 +149,18 @@ namespace sip {
         boost::replace_all(address, "<", "");
         boost::replace_all(address, ">", "");
 
-        if (ci.state == PJSIP_INV_STATE_CONFIRMED) {
-            auto msgText = "Incoming call from " + address + ".";
+        if (ci.state == PJSIP_INV_STATE_CALLING) {
+            callDirection = "Outgoing call to " + address + ".";
+        } else if (ci.state == PJSIP_INV_STATE_INCOMING) {
+            callDirection = "Incoming call from " + address + ".";
+        } else if (ci.state == PJSIP_INV_STATE_EARLY) {
+            auto msgText = callDirection + "early...";
+            communicator.logger.notice(msgText);
+        } else if (ci.state == PJSIP_INV_STATE_CONNECTING) {
+            auto msgText = callDirection + "connectin...";
+            communicator.logger.notice(msgText);
+        } else if (ci.state == PJSIP_INV_STATE_CONFIRMED) {
+            auto msgText = CallDirection + address + ".";
 
             // first, login to Mumble (only matters if MUM_DELAYED_CONNECT)
             communicator.calls[ci.id].onConnect(address);
@@ -193,7 +203,7 @@ namespace sip {
              * functionality, this check doesn't work.
              */
             //if (not acc.available) {
-                auto msgText = "Call from " + address + " finished.";
+                auto msgText = callDirection + address + " finished.";
 
                 communicator.calls[ci.id].mixer->clear();
 
